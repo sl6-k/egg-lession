@@ -7,7 +7,47 @@ class UserController extends Controller {
     const {
       ctx,
     } = this;
-    ctx.body = 'user Index';
+    const user = ctx.cookies.get('user');
+
+    const session = ctx.session.user;
+    console.log(session);
+
+    await ctx.render('user.html', {
+      id: 100,
+      name: 'join',
+      lists: [ 'a', 'b', 'c' ],
+      user: user ? JSON.parse(user) : null,
+    }, {
+      delimiter: '%',
+    });
+  }
+
+  async login() {
+    const { ctx } = this;
+    const body = ctx.request.body;
+    ctx.cookies.set('user', JSON.stringify(body), {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: false,
+      encrypt: true,
+    });
+
+    // 保存session
+    ctx.session.user = body;
+
+
+    ctx.body = {
+      status: 200,
+      data: body,
+    };
+  }
+
+  async loginOut() {
+    const { ctx } = this;
+    ctx.cookies.set('user', null);
+    ctx.session.user = null;
+    ctx.body = {
+      status: 200,
+    }
   }
 
   async lists() {

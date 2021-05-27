@@ -1,7 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
-
+const path = require('path');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -21,6 +21,24 @@ module.exports = appInfo => {
     csrf: {
       enable: false,
     },
+  };
+  config.view = {
+    mapping: {
+      '.html': 'ejs',
+    },
+  };
+  config.ejs = {
+    delimiter: '$',
+  };
+  config.session = {
+    key: 'dk-sess',
+    httpOnly: true,
+    maxAge: 1000 * 5,
+    renew: true,
+  }
+  config.static = {
+    prefix: '/assets/',
+    dir: path.join(appInfo.baseDir, 'app/assets'),
   };
   // add your user config here
   const userConfig = {
