@@ -16,7 +16,11 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1621926254655_4476';
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = [ 'httpLog' ];
+  config.httpLog = {
+    type: 'all',
+  };
+
   config.security = {
     csrf: {
       enable: false,
@@ -30,12 +34,35 @@ module.exports = appInfo => {
   config.ejs = {
     delimiter: '$',
   };
+  config.mysql = {
+    app: true,
+    agent: false,
+    client: {
+      host: '127.0.0.1',
+      port: '3306',
+      user: 'root',
+      password: '123456',
+      database: 'egg',
+    },
+  };
+  config.sequelize = {
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: '3306',
+    user: 'root',
+    password: '123456',
+    database: 'egg',
+    define: {
+      timestamps: false,
+      freezeTableName: true,
+    },
+  };
   config.session = {
     key: 'dk-sess',
     httpOnly: true,
     maxAge: 1000 * 5,
     renew: true,
-  }
+  };
   config.static = {
     prefix: '/assets/',
     dir: path.join(appInfo.baseDir, 'app/assets'),

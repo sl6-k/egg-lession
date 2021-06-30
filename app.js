@@ -5,6 +5,7 @@ module.exports = app => {
     async get(key) {
       return store[key];
     },
+    // eslint-disable-next-line no-unused-vars
     async set(key, value, maxAge) {
       store[key] = value;
     },
@@ -12,4 +13,7 @@ module.exports = app => {
       store[key] = null;
     },
   };
+
+  // app.config.coreMiddleware.push('auth');
+  // console.log(app.config.coreMiddleware);
 };
